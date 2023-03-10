@@ -203,3 +203,210 @@ MainSection:NewButton("Aimbot", "ButtonInfo", function()
         end
     end)
 end)
+
+
+
+
+
+
+
+
+
+
+
+
+MainSection:NewButton("Tracers", "ButtonInfo", function()
+    _G.TeamCheck = false
+    _G.Tracers = true
+    --// local shit stuff i guess \\--
+    local lp = game.Players.LocalPlayer
+    local camera = game:GetService("Workspace").CurrentCamera
+    local CurrentCamera = workspace.CurrentCamera
+    local worldToViewportPoint = CurrentCamera.worldToViewportPoint
+    for i,v in pairs(game.Players:GetChildren()) do
+        local Tracer = Drawing.new("Line")
+        Tracer.Visible = false
+        Tracer.Color = Color3.new(255,0,255)
+        Tracer.Thickness = 2
+        Tracer.Transparency = 1
+        
+        function traces()
+            game:GetService("RunService").RenderStepped:Connect(function()
+                if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lp and v.Character.Humanoid.Health > 0 then
+                    local Vector, OnScreen = camera:worldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                    
+                    if OnScreen then
+                        Tracer.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
+                        Tracer.To = Vector2.new(Vector.X, Vector.Y)
+                        
+                        if _G.TeamCheck and v.TeamColor == lp.TeamColor then
+                            Tracer.Visible = false
+                        else
+                            Tracer.Visible = true
+                        end
+                    else
+                        Tracer.Visible = false
+                    end
+                else
+                    Tracer.Visible = false
+                end
+                if _G.Tracers == false then
+                    Tracers.Visible = false
+                end
+            end)
+        end
+        coroutine.wrap(traces)()
+    end
+    game.Players.PlayerAdded:Connect(function()
+        local Tracer = Drawing.new("Line")
+        Tracer.Visible = false
+        Tracer.Color = Color3.new(255,0,0)
+        Tracer.Thickness = 2
+        Tracer.Transparency = 2
+        
+        function traces()
+            game:GetService("RunService").RenderStepped:Connect(function()
+                if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lp and v.Character.Humanoid.Health > 0 then
+                    local Vector, OnScreen = camera:worldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                    if OnScreen then
+                        Tracer.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
+                        Tracer.To = Vector2.new(Vector.X, Vector.Y)
+                        
+                        if _G.TeamCheck and v.TeamColor == lp.TeamColor then
+                            Tracer.Visible = false
+                        else
+                            Tracer.Visible = true
+                        end
+                    else
+                        Tracer.Visible = false
+                    end
+                else
+                    Tracer.Visible = false
+                end
+                if _G.Tracers == false then
+                    Tracers.Visible = false
+                end
+            end)
+        end
+        coroutine.wrap(traces)()
+    end)
+end)
+
+
+
+
+
+
+
+MainSection:NewButton("ESP", "ButtonInfo", function()
+    game:GetService("StarterGui"):SetCore("SendNotification",{ 	
+        Title = "Made By:",  	
+        Text = "AdvancedFalling Team",
+            Icon = "rbxthumb://type=Asset&id=9863339777&w=150&h=150",
+            Duration = 8
+        })
+        
+        --// Setting \\--
+        local settings = {
+           defaultcolor = Color3.fromRGB(255,0,255),
+           teamcheck = false, -- when true it wont show the esp box in your teammate
+           teamcolor = true, -- if false then default color(white)
+        };
+        
+        --// Service \\--
+        local runService = game:GetService("RunService");
+        local players = game:GetService("Players");
+        
+        --// Variable \\--
+        local localPlayer = players.LocalPlayer;
+        local camera = workspace.CurrentCamera;
+        
+        --// Function \\--
+        local newVector2, newColor3, newDrawing = Vector2.new, Color3.new, Drawing.new;
+        local tan, rad = math.tan, math.rad;
+        local round = function(...) local a = {}; for i,v in next, table.pack(...) do a[i] = math.round(v); end return unpack(a); end;
+        local wtvp = function(...) local a, b = camera.WorldToViewportPoint(camera, ...) return newVector2(a.X, a.Y), b, a.Z end;
+        
+        local espCache = {};
+        local function createEsp(player)
+           local drawings = {};
+           
+           drawings.box = newDrawing("Square");
+           drawings.box.Thickness = 1;
+           drawings.box.Filled = false;
+           drawings.box.Color = settings.defaultcolor;
+           drawings.box.Visible = false;
+           drawings.box.ZIndex = 2;
+        
+           drawings.boxoutline = newDrawing("Square");
+           drawings.boxoutline.Thickness = 4;
+           drawings.boxoutline.Filled = false;
+           drawings.boxoutline.Color = newColor3();
+           drawings.boxoutline.Visible = false;
+           drawings.boxoutline.ZIndex = 0.5;
+        
+           espCache[player] = drawings;
+        end
+        
+        local function removeEsp(player)
+           if rawget(espCache, player) then
+               for _, drawing in next, espCache[player] do
+                   drawing:Remove();
+               end
+               espCache[player] = nil;
+           end
+        end
+        
+        local function updateEsp(player, esp)
+           local character = player and player.Character;
+           if character then
+               local cframe = character:GetModelCFrame();
+               local position, visible, depth = wtvp(cframe.Position);
+               esp.box.Visible = visible;
+               esp.boxoutline.Visible = visible;
+        
+               if cframe and visible then
+                   local scaleFactor = 1 / (depth * tan(rad(camera.FieldOfView / 2)) * 2) * 1000;
+                   local width, height = round(4 * scaleFactor, 5 * scaleFactor);
+                   local x, y = round(position.X, position.Y);
+        
+                   esp.box.Size = newVector2(width, height);
+                   esp.box.Position = newVector2(round(x - width / 2, y - height / 2));
+                   esp.box.Color = settings.teamcolor and player.TeamColor.Color or settings.defaultcolor;
+        
+                   esp.boxoutline.Size = esp.box.Size;
+                   esp.boxoutline.Position = esp.box.Position;
+               end
+           else
+               esp.box.Visible = false;
+               esp.boxoutline.Visible = false;
+           end
+        end
+        
+        --// Main \\--
+        for _, player in next, players:GetPlayers() do
+           if player ~= localPlayer then
+               createEsp(player);
+           end
+        end
+        
+        players.PlayerAdded:Connect(function(player)
+           createEsp(player);
+        end);
+        
+        players.PlayerRemoving:Connect(function(player)
+           removeEsp(player);
+        end)
+        
+        runService:BindToRenderStep("esp", Enum.RenderPriority.Camera.Value, function()
+           for player, drawings in next, espCache do
+               if settings.teamcheck and player.Team == localPlayer.Team then
+                   continue;
+               end
+                    
+               if drawings and player ~= localPlayer then
+                   updateEsp(player, drawings);
+               end
+           end
+        end)
+end)
