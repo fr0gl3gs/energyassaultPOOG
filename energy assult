@@ -203,16 +203,3 @@ MainSection:NewButton("Aimbot", "ButtonInfo", function()
         end
     end)
 end)
-
-
-
-
-MainSection:NewButton("ESP GUI", "ButtonInfo", function()
-    loadstring(game:HttpGet(('https://raw.githubusercontent.com/zachisfunny/esp-unversal/main/script'),true))()
-end)
-
-
-
-MainSection:NewButton("AimWare's Chams", "ButtonInfo", function()
-    loadstring(game:HttpGet"https://raw.githubusercontent.com/Wheeleee/AIMWARE/main/Startup")()
-end)
