@@ -301,9 +301,9 @@ end)
 MainSection:NewButton("ESP", "ButtonInfo", function()
     game:GetService("StarterGui"):SetCore("SendNotification",{ 	
         Title = "Made By:",  	
-        Text = "AdvancedFalling Team",
+        Text = "Poog Foog",
             Icon = "rbxthumb://type=Asset&id=9863339777&w=150&h=150",
-            Duration = 8
+            Duration = 20
         })
         
         --// Setting \\--
