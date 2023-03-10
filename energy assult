@@ -131,7 +131,7 @@ MainSection:NewButton("Aimbot", "ButtonInfo", function()
         Aimbot_TeamCheck = true,
         Aimbot_Draw_FOV = true,
         Aimbot_FOV_Radius = 200,
-        Aimbot_FOV_Color = Color3.fromRGB(255,255,255)
+        Aimbot_FOV_Color = Color3.fromRGB(255,0,255)
     }
     
     local fovcircle = Drawing.new("Circle")
@@ -142,7 +142,7 @@ MainSection:NewButton("Aimbot", "ButtonInfo", function()
     fovcircle.Filled = false
     fovcircle.Transparency = .5
     
-    fovcircle.Position = Vector2.new(dwCamera.ViewportSize.X / 3, dwCamera.ViewportSize.Y / 3)
+    fovcircle.Position = Vector2.new(dwCamera.ViewportSize.X / 2, dwCamera.ViewportSize.Y / 2)
     
     dwUIS.InputBegan:Connect(function(i)
         if i.UserInputType == Enum.UserInputType.MouseButton2 then
@@ -202,4 +202,4 @@ MainSection:NewButton("Aimbot", "ButtonInfo", function()
             end
         end
     end)
-end
+end)
