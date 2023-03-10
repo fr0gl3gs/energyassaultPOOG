@@ -206,7 +206,7 @@ end)
 
 
 
-Section:NewButton(" Name ESP", "ButtonInfo", function()
+MainSection:NewButton(" Name ESP", "ButtonInfo", function()
     local nameState = false
     local localPlayer = game.Players.LocalPlayer
     local CurrentCamera = workspace.CurrentCamera
@@ -267,10 +267,3 @@ Section:NewButton(" Name ESP", "ButtonInfo", function()
     end
     }
 end)
-
-
-
-
-
-
-
