@@ -5,7 +5,7 @@ local Window = Library.CreateLib("Energy Assault GUI  by: Poog Foog", "DarkTheme
 
 
 local Main = Window:NewTab("Main")
-MainSection = Main:NewSection("Main")
+local MainSection = Main:NewSection("Main")
 
 
 
@@ -61,11 +61,11 @@ MainSection:NewButton("Speed gui", "ButtonInfo", function()
     
     
     
-    local w = ui:NewWindow('speed',250,200)
+    local w = ui:NewWindow('speed',0,0)
     
     local m = w:NewMenu('speed')
     local t = m:NewToggle('toggle speed')
-    local s = m:NewSlider('speed amount',0.5,50,5)
+    local s = m:NewSlider('speed amount',0.5,20,5)
     
     t:SetTooltip("toggles speedhacks")
     s:SetTooltip("speedhack speed")
@@ -130,7 +130,7 @@ MainSection:NewButton("Aimbot", "ButtonInfo", function()
         Aimbot_AimPart = "Head",
         Aimbot_TeamCheck = true,
         Aimbot_Draw_FOV = true,
-        Aimbot_FOV_Radius = 200,
+        Aimbot_FOV_Radius = 300,
         Aimbot_FOV_Color = Color3.fromRGB(255,0,255)
     }
     
