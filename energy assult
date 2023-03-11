@@ -9,6 +9,21 @@ local MainSection = Main:NewSection("Main")
 
 
 
+
+
+local Player = Window:NewTab("Player")
+local PlayerSection = Player:NewSection("Player")
+
+
+
+
+
+
+local Visuals = Window:NewTab("Visuals")
+local VisualsSection = Visuals:NewSection("Visuals")
+
+
+
 MainSection:NewButton("Silent aim", "ButtonInfo", function()
     getgenv().fov = math.huge
     getgenv().hitpart = "Head"
@@ -25,7 +40,7 @@ end)
 
 
 
-MainSection:NewButton(" Undetected Speed gui", "ButtonInfo", function()
+PlayerSection:NewButton(" Undetected Speed gui", "ButtonInfo", function()
     local s_rs = game:GetService("RunService")
     local l_plr = game:GetService("Players").LocalPlayer
     
@@ -217,7 +232,7 @@ end)
 
 
 
-MainSection:NewButton("Tracers", "ButtonInfo", function()
+VisualsSection:NewButton("Tracers", "ButtonInfo", function()
     _G.TeamCheck = false
     _G.Tracers = true
     --// local shit stuff i guess \\--
@@ -300,7 +315,7 @@ end)
 
 
 
-MainSection:NewButton("ESP", "ButtonInfo", function()
+VisualsSection:NewButton("ESP", "ButtonInfo", function()
     game:GetService("StarterGui"):SetCore("SendNotification",{ 	
         Title = "Made By:",  	
         Text = "Poog Foog",
@@ -419,7 +434,7 @@ end)
 
 
 
-MainSection:NewButton("Skeletons", "ButtonInfo", function()
+VisualsSection:NewButton("Skeletons", "ButtonInfo", function()
     game:GetService("StarterGui"):SetCore("SendNotification",{ 	
         Title = "Made By:",  	
         Text = "Poog Foog",
@@ -552,3 +567,67 @@ MainSection:NewButton("Skeletons", "ButtonInfo", function()
         end
         entities.PlayerAdded:Connect(playeradded)
 end)
+
+
+
+
+MainSection:NewButton("Hitbox Expander", "ButtonInfo", function()
+    print("Clicked")
+end)
+
+
+
+
+_G.PART = "HumanoidRootPart"
+_G.PRED = 0.13960
+_G.T = 0.7
+ 
+local lp = game:GetService("Players").LocalPlayer
+local mouse = lp:GetMouse()
+local enabled = false
+local Target
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+setreadonly(mt, false)
+mt.__namecall =
+newcclosure(
+function(...)
+local args = {...}
+if enabled and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePos" then
+args[3] = Target[_G.PART].Position + (Target[_G.PART].Velocity * _G.PRED)
+return old(unpack(args))
+end
+return old(...)
+end)
+ 
+ 
+game:GetService("RunService").RenderStepped:Connect(function() 
+ 
+for i,v in pairs (game:GetService("Players"):GetPlayers()) do
+if v ~= game:GetService("Players").LocalPlayer and v.Character.BodyEffects:FindFirstChild("K.O").Value == false then 
+if mouse.Target == v.Character.HumanoidRootPart then
+    Target = v.Character
+    enabled = true
+end
+end
+if v ~= game:GetService("Players").LocalPlayer then
+if v.Character.BodyEffects:FindFirstChild("K.O").Value == false then 
+v.Character.HumanoidRootPart.Size = Vector3.new(20, 20, 20)
+v.Character.HumanoidRootPart.CanCollide = false
+else
+v.Character.HumanoidRootPart.Size = Vector3.new(0.1, 0.1, 0.1)
+v.Character.HumanoidRootPart.CanCollide = false
+end
+if v.Character:FindFirstChild("GRABBING_CONSTRAINT") then
+    v.Character.HumanoidRootPart.Size = Vector3.new(0.1, 0.1, 0.1)
+    v.Character.HumanoidRootPart.CanCollide = false
+end
+end
+end
+if mouse.Target.Name == "HumanoidRootPart" then
+enabled = true
+else
+enabled = false
+end
+ 
+end) 
