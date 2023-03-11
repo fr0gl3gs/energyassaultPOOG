@@ -302,15 +302,15 @@ MainSection:NewButton("ESP", "ButtonInfo", function()
     game:GetService("StarterGui"):SetCore("SendNotification",{ 	
         Title = "Made By:",  	
         Text = "Poog Foog",
-            Icon = "rbxthumb://type=Asset&id=9863339777&w=150&h=150",
-            Duration = 20
+            Icon = "",
+            Duration = 200
         })
         
         --// Setting \\--
         local settings = {
            defaultcolor = Color3.fromRGB(255,0,255),
-           teamcheck = false, -- when true it wont show the esp box in your teammate
-           teamcolor = true, -- if false then default color(white)
+           teamcheck = true, -- when true it wont show the esp box in your teammate
+           teamcolor = false, -- if false then default color(white)
         };
         
         --// Service \\--
@@ -339,7 +339,7 @@ MainSection:NewButton("ESP", "ButtonInfo", function()
            drawings.box.ZIndex = 2;
         
            drawings.boxoutline = newDrawing("Square");
-           drawings.boxoutline.Thickness = 4;
+           drawings.boxoutline.Thickness = 5;
            drawings.boxoutline.Filled = false;
            drawings.boxoutline.Color = newColor3();
            drawings.boxoutline.Visible = false;
@@ -421,8 +421,8 @@ MainSection:NewButton("Skeletons", "ButtonInfo", function()
     game:GetService("StarterGui"):SetCore("SendNotification",{ 	
         Title = "Made By:",  	
         Text = "Poog Foog",
-            Icon = "rbxthumb://type=Asset&id=9863339777&w=150&h=150",
-            Duration = 20
+            Icon = "",
+            Duration = 200
         })
         
         local camera = workspace.CurrentCamera
@@ -550,5 +550,3 @@ MainSection:NewButton("Skeletons", "ButtonInfo", function()
         end
         entities.PlayerAdded:Connect(playeradded)
 end)
-
-
