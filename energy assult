@@ -64,14 +64,14 @@ MainSection:NewButton("Speed gui", "ButtonInfo", function()
     local w = ui:NewWindow('speed',0,0)
     
     local m = w:NewMenu('speed')
-    local t = m:NewToggle('toggle speed')
-    local s = m:NewSlider('speed amount',0.5,20,5)
+    local t = m:NewToggle('Toggle Speed')
+    local s = m:NewSlider('speed amount',0.7,20,5)
     
     t:SetTooltip("toggles speedhacks")
     s:SetTooltip("speedhack speed")
     
     m:NewLabel()
-    m:NewLabel('made by Poog foog')
+    m:NewLabel('Made by Poog foog')
     
     s.OnValueChanged:Connect(function(v) 
         speed_amnt = v
@@ -550,3 +550,5 @@ MainSection:NewButton("Skeletons", "ButtonInfo", function()
         end
         entities.PlayerAdded:Connect(playeradded)
 end)
+
+
